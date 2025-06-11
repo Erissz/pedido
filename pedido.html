@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nosso Amor 💖</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      background: linear-gradient(to bottom, #ffe4e1, #fff0f5);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #d63384;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease;
+    }
+
+    #counter {
+      font-size: 2em;
+      color: #ff4d6d;
+      background-color: rgba(255, 255, 255, 0.6);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 3s ease;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 24px;
+      font-size: 1.2em;
+      color: white;
+      background-color: #ff4d6d;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s;
+      animation: fadeIn 4s ease;
+    }
+
+    button:hover {
+      background-color: #d63384;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .emoji {
+      position: absolute;
+      font-size: 24px;
+      animation: fall linear infinite;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Desde que começamos a namorar 💑</h1>
+  <div id="counter">Clique no botão abaixo para começar</div>
+  <button onclick="startCounter()">Contar nosso amor 💖</button>
+
+  <script>
+    let startDate;
+
+    function startCounter() {
+      if (!localStorage.getItem('startDate')) {
+        const now = new Date();
+        localStorage.setItem('startDate', now.toISOString());
+        startDate = now;
+      } else {
+        startDate = new Date(localStorage.getItem('startDate'));
+      }
+
+      updateCounter();
+      setInterval(updateCounter, 1000);
+    }
+
+    function updateCounter() {
+      const now = new Date();
+      const diff = now - startDate;
+
+      const totalSeconds = Math.floor(diff / 1000);
+      const years = Math.floor(totalSeconds / (365 * 24 * 60 * 60));
+      const months = Math.floor((totalSeconds % (365 * 24 * 60 * 60)) / (30 * 24 * 60 * 60));
+      const days = Math.floor((totalSeconds % (30 * 24 * 60 * 60)) / (24 * 60 * 60));
+      const hours = Math.floor((totalSeconds % (24 * 60 * 60)) / (60 * 60));
+      const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+      const seconds = totalSeconds % 60;
+
+      document.getElementById("counter").innerHTML =
+        `Estamos juntos há:<br>
+        <strong>${years} anos</strong>, 
+        <strong>${months} meses</strong>, 
+        <strong>${days} dias</strong>,<br>
+        <strong>${hours} horas</strong>, 
+        <strong>${minutes} minutos</strong> e 
+        <strong>${seconds} segundos</strong> 🌹`;
+    }
+
+    // Emoji rain
+    function createEmoji() {
+      const emoji = document.createElement('div');
+      emoji.classList.add('emoji');
+      emoji.innerText = '🌸';
+      emoji.style.left = Math.random() * 100 + 'vw';
+      emoji.style.animationDuration = 3 + Math.random() * 3 + 's';
+      document.body.appendChild(emoji);
+
+      setTimeout(() => {
+        emoji.remove();
+      }, 6000);
+    }
+
+    setInterval(createEmoji, 300);
+
+    // Se já iniciou antes, continuar contando automaticamente
+    if (localStorage.getItem('startDate')) {
+      startCounter();
+    }
+  </script>
+</body>
+</html>

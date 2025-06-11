@@ -42,7 +42,7 @@
     }
 
     button {
-      margin-top: 30px;
+      margin: 10px;
       padding: 12px 24px;
       font-size: 1.2em;
       color: white;
@@ -74,15 +74,35 @@
       animation: fall linear infinite;
       pointer-events: none;
     }
+
+    #inicio, #contadorArea {
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <h1>Desde que começamos a namorar 💑</h1>
-  <div id="counter">Clique no botão abaixo para começar</div>
-  <button onclick="startCounter()">Contar nosso amor 💖</button>
+  <div id="inicio">
+    <h1>Quer namorar comigo? 💍</h1>
+    <button onclick="aceitouSim()">Sim 💖</button>
+    <button onclick="alert('Ahhh 😢... então tá bom.')">Não 😢</button>
+  </div>
+
+  <div id="contadorArea">
+    <h1>Desde que começamos a namorar 💑</h1>
+    <div id="counter">Clique no botão abaixo para começar</div>
+    <button onclick="startCounter()">Contar nosso amor 💖</button>
+  </div>
 
   <script>
     let startDate;
+
+    function aceitouSim() {
+      document.getElementById('inicio').style.display = 'none';
+      document.getElementById('contadorArea').style.display = 'flex';
+      if (localStorage.getItem('startDate')) {
+        startCounter();
+      }
+    }
 
     function startCounter() {
       if (!localStorage.getItem('startDate')) {
@@ -135,9 +155,9 @@
 
     setInterval(createEmoji, 300);
 
-    // Se já iniciou antes, continuar contando automaticamente
-    if (localStorage.getItem('startDate')) {
-      startCounter();
+    // Exibe a pergunta inicial ao abrir o site
+    window.onload = () => {
+      document.getElementById('inicio').style.display = 'flex';
     }
   </script>
 </body>
